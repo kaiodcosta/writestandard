@@ -1,9 +1,20 @@
 document.getElementById('publish-button').addEventListener('click', async () => {
-  const content = document.getElementById('note-content').value;
-  const token = document.getElementById('writeas-token').value;
+  const alias = prompt("Digite um título curto para a nota (alias):").trim();
+  const content = document.getElementById('note-content').value.trim();
+  const token = document.getElementById('writeas-token').value.trim();
 
-  if (!content || !token) {
-    alert("Por favor, preencha o conteúdo da nota e o token da API.");
+  if (!alias) {
+    alert("Por favor, forneça um alias para a nota.");
+    return;
+  }
+
+  if (!content) {
+    alert("Por favor, preencha o conteúdo da nota.");
+    return;
+  }
+
+  if (!token) {
+    alert("Por favor, insira o token da API.");
     return;
   }
 
@@ -14,7 +25,10 @@ document.getElementById('publish-button').addEventListener('click', async () => 
         "Authorization": `Token ${token}`,
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({ body: content })
+      body: JSON.stringify({
+        alias: alias,
+        body: content
+      })
     });
 
     if (response.ok) {
@@ -22,11 +36,11 @@ document.getElementById('publish-button').addEventListener('click', async () => 
       alert(`Nota publicada com sucesso! Link: ${data.url}`);
     } else {
       const error = await response.json();
+      console.error("Erro ao publicar:", error);
       alert(`Erro ao publicar: ${error.message || "Desconhecido"}`);
     }
   } catch (err) {
-    console.error(err);
-    alert("Ocorreu um erro ao tentar publicar sua nota.");
+    console.error("Erro de conexão:", err);
+    alert("Erro de conexão com o servidor. Verifique o console para mais detalhes.");
   }
 });
-
