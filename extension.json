@@ -1,0 +1,9 @@
+{
+  "identifier": "writeas-publisher",
+  "name": "Write.as Publisher",
+  "content_type": "SN|Component",
+  "area": "editor-stack",
+  "description": "Publique suas notas no Write.as diretamente do Standard Notes.",
+  "version": "1.0.0",
+  "url": "./index.html"
+}
